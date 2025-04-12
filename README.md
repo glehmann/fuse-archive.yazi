@@ -97,8 +97,8 @@ Add this to your `~/.config/yazi/keymap.toml`:
 ``` toml
 [manager]
 prepend_keymap = [
-    { on   = [ "<Right>" ], run = "plugin fuse-archive --args=mount", desc = "Enter or Mount selected archive" },
-    { on   = [ "<Left>" ], run = "plugin fuse-archive --args=unmount", desc = "Leave or Unmount selected archive" },
+    { on   = [ "<Right>" ], run = "plugin fuse-archive -- mount", desc = "Enter or Mount selected archive" },
+    { on   = [ "<Left>" ], run = "plugin fuse-archive -- unmount", desc = "Leave or Unmount selected archive" },
 ]
 ```
 
