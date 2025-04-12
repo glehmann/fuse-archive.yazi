@@ -1,7 +1,7 @@
 local shell = os.getenv("SHELL")
 
 local function error(s, ...)
-  ya.notify({ title = "fuse-archive", content = string.format(s, ...), timeout = 3, level = "error" })
+  ya.notify({ title = "fuse-archive", content = string.format(s, ...), timeout = 3, level = "Error" })
 end
 
 local set_state = ya.sync(function(state, archive, key, value)
@@ -52,7 +52,7 @@ local enter = ya.sync(function()
   local h = cx.active.current.hovered
   if h then
     if h.cha.is_dir then
-		  ya.manager_emit("enter", {})
+      ya.manager_emit("enter", {})
     else
       if get_state("global", "smart_enter") then
         ya.manager_emit("open", { hovered = true })
@@ -66,12 +66,12 @@ end)
 local function run_command(cmd, args)
   local cwd = current_dir()
   local child, cmd_err = Command(cmd)
-    :args(args)
-    :cwd(cwd)
-    :stdin(Command.INHERIT)
-    :stdout(Command.PIPED)
-    :stderr(Command.PIPED)
-    :spawn()
+      :args(args)
+      :cwd(cwd)
+      :stdin(Command.INHERIT)
+      :stdout(Command.PIPED)
+      :stderr(Command.PIPED)
+      :spawn()
 
   if not child then
     error("Spawn `fuse-archive` failed with error code %s", cmd_err)
@@ -180,7 +180,8 @@ return {
       if not tmp_file_path then
         return
       end
-      local ret_code = run_command(shell, { "-c", "fuse-archive " .. ya.quote("./" .. file) .." " .. ya.quote(tmp_file_path) })
+      local ret_code = run_command(shell,
+        { "-c", "fuse-archive " .. ya.quote("./" .. file) .. " " .. ya.quote(tmp_file_path) })
       if ret_code ~= 0 then
         os.remove(tmp_file_path)
         error(" Unable to mount %s", file)
