@@ -68,9 +68,9 @@ local function run_command(cmd, args)
   local child, cmd_err = Command(cmd)
       :args(args)
       :cwd(cwd)
-      :stdin(Command.INHERIT)
-      :stdout(Command.PIPED)
-      :stderr(Command.PIPED)
+      :stdin(Command.NULL)
+      :stdout(Command.NULL)
+      :stderr(Command.NULL)
       :spawn()
 
   if not child then
@@ -180,8 +180,14 @@ return {
       if not tmp_file_path then
         return
       end
-      local ret_code = run_command(shell,
-        { "-c", "fuse-archive " .. ya.quote("./" .. file) .. " " .. ya.quote(tmp_file_path) })
+      local ret_code
+      if file:find("%.rpm$") then
+        ya.dbg("using archivefs to open " .. ya.quote(file) .. " in " .. ya.quote(tmp_file_name))
+        ret_code = run_command("archivefs", { "./" .. file, tmp_file_path })
+      else
+        ret_code = run_command(shell,
+          { "-c", "fuse-archive " .. ya.quote("./" .. file) .. " " .. ya.quote(tmp_file_path) })
+      end
       if ret_code ~= 0 then
         os.remove(tmp_file_path)
         error(" Unable to mount %s", file)
