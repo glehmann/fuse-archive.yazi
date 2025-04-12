@@ -99,7 +99,7 @@ local valid_extension = ya.sync(function()
     local valid_extensions = {
       "zip", "gz", "bz2", "tar", "tgz", "tbz2", "txz", "xz", "tzs",
       "zst", "iso", "rar", "7z", "cpio", "lz", "lzma", "shar", "a",
-      "ar", "apk", "jar", "xpi", "cab"
+      "ar", "apk", "jar", "xpi", "cab", "rpm"
     }
     local filename = tostring(h.url)
     for _, ext in ipairs(valid_extensions) do
