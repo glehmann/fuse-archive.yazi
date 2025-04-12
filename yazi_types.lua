@@ -1,0 +1,1418 @@
+-- The types of the Yazi Lua API
+
+-- The parameters for the ui.Rect object
+---@class (exact) ui.RectParams
+---@field x integer The x coordinate of the rectangular area.
+---@field y integer The y coordinate of the rectangular area.
+---@field w integer The width of the rectangular area.
+---@field h integer The height of the rectangular area.
+---@field left integer The left coordinate of the rectangular area.
+---@field right integer The right coordinate of the rectangular area.
+---@field top integer The top coordinate of the rectangular area.
+---@field bottom integer The bottom coordinate of the rectangular area.
+
+-- The type of the ui.Rect object
+---@class (exact) ui.Rect: ui.RectParams
+---@field default ui.Rect The default rectangular area with everything set to 0.
+---@field pad fun(pad: ui.Pad): nil Apply padding to the rectangular area.
+
+-- The type of the ui.Pad object
+---@class (exact) ui.Pad
+---@field left integer The left padding.
+---@field right integer The right padding.
+---@field top integer The top padding.
+---@field bottom integer The bottom padding.
+
+-- The type for the supported colours
+---@alias SupportedColours
+---	|"reset"
+---	|"black"
+---	|"white"
+---	|"red"
+---	|"lightred"
+---	|"green"
+---	|"lightgreen"
+---	|"yellow"
+---	|"lightyellow"
+---	|"blue"
+---	|"lightblue"
+---	|"magenta"
+---	|"lightmagenta"
+---	|"cyan"
+---	|"lightcyan"
+---	|"gray"
+---	|"darkgray"
+
+-- The type of the Color object
+---@alias Color SupportedColours|string
+
+-- The type of the ui.Style object
+---@class (exact) ui.Style
+---@field fg fun(
+---	self: ui.Style,
+---	fg: Color,    -- The foreground color to set.
+---): ui.Style Set the foreground color of the style.
+---@field bg fun(
+---	self: ui.Style,
+---	bg: Color,    -- The background color to set.
+---): ui.Style Set the background color of the style.
+---@field bold fun(self: ui.Style): ui.Style Set the style to bold.
+---@field dim fun(self: ui.Style): ui.Style Set the style to dim.
+---@field italic fun(self: ui.Style): ui.Style Set the style to italic.
+---@field underline fun(self: ui.Style): ui.Style Set the style to underline.
+---@field blink fun(self: ui.Style): ui.Style Set the style to blink.
+---@field blink_rapid fun(
+---	self: ui.Style,
+---): ui.Style Set the style to blink rapidly.
+---@field reverse fun(self: ui.Style): ui.Style Set the style to reverse.
+---@field hidden fun(self: ui.Style): ui.Style Set the style to hidden.
+---@field crossed fun(self: ui.Style): ui.Style Set the style to crossed.
+---@field reset fun(self: ui.Style): ui.Style Reset the style.
+---@field patch fun(
+---	self: ui.Style,
+---	style: ui.Style,    -- The style to patch.
+---): ui.Style Patch the style with another style.
+
+-- The type of the ui.Span object
+---@class (exact) ui.Span: ui.Style
+---@field visible fun(self: ui.Span): boolean Whether the span is visible.
+---@field style fun(
+---	self: ui.Span,
+---	style: ui.Style,    -- The style to set.
+---): ui.Span Set the style of the span.
+
+-- The type of the area function for the ui.Line object
+--
+-- It accepts a rectangular area to change the area of the line.
+-- If there is no rectangular area given,
+-- it returns the current area of the line.
+---@alias ui.Line.area fun(self: ui.Line, rect: ui.Rect): nil|ui.Rect
+
+-- The types for the alignments of the ui.Line object
+---@alias ui.Line.LEFT integer Align the line to the left.
+---@alias ui.Line.CENTER integer Align the line to the center.
+---@alias ui.Line.RIGHT integer Align the line to the right
+
+-- The possible alignments of the ui.Line object
+---@alias ui.Line.Alignment
+---	|ui.Line.LEFT
+---	|ui.Line.CENTER
+---	|ui.Line.RIGHT
+
+-- The type of the ui.Line object
+---@class (exact) ui.Line: ui.Style
+---@field area ui.Line.area Set or retrieve the current area of the line.
+---@field align fun(
+---	self: ui.Line,
+---	alignment: ui.Line.Alignment,    -- The alignment to set.
+---): ui.Line Set the alignment of the line.
+---@field visible fun(self: ui.Line): boolean Whether the line is visible.
+---@field style fun(
+---	self: ui.Line,
+---	style: ui.Style,    -- The style to set.
+---): ui.Line Set the style of the line.
+---@field LEFT ui.Line.LEFT A constant for the align() method
+---@field CENTER ui.Line.CENTER A constant for the align() method
+---@field RIGHT ui.Line.RIGHT A constant for the align() method
+
+-- The type of the area function for the ui.Text object
+--
+-- It accepts a rectangular area to change the area of the text.
+-- If there is no rectangular area given,
+-- it returns the current area of the text.
+---@alias ui.Text.area fun(self: ui.Text, rect: ui.Rect): nil|ui.Rect
+
+-- The types for the alignments of the ui.Text object
+---@alias ui.Text.LEFT integer Align the text to the left.
+---@alias ui.Text.CENTER integer Align the text to the center.
+---@alias ui.Text.RIGHT integer Align the text to the right
+
+-- The possible alignments of the ui.Text object
+---@alias ui.Text.Alignment
+---	|ui.Text.LEFT
+---	|ui.Text.CENTER
+---	|ui.Text.RIGHT
+
+-- The types for the wrap of the ui.Text object
+---@alias ui.Text.WRAP_NO integer No wrapping.
+---@alias ui.Text.WRAP integer Wrap at the end of the line.
+---@alias ui.Text.WRAP_TRIM integer ui.Text.WRAP + trim leading whitespace.
+
+-- The possible wrappings of the ui.Text object
+---@alias ui.Text.Wrapping
+---	|ui.Text.WRAP_NO
+---	|ui.Text.WRAP
+---	|ui.Text.WRAP_TRIM
+
+-- The type of the ui.Text object
+---@class (exact) ui.Text: ui.Style
+---@field parse fun(
+---	code: string,    -- The ANSI escape codes to parse.
+---): ui.Text Parse ANSI escape codes into a ui.Text object.
+---@field area ui.Text.area Set or retrieve the current area of the text.
+---@field align fun(
+---	self: ui.Text,
+---	alignment: ui.Text.Alignment,    -- The alignment to set.
+---): ui.Text Set the alignment of the text.
+---@field wrap fun(
+---	self: ui.Text,
+---	wrapping: ui.Text.Wrapping,    -- The wrapping to set.
+---): ui.Text Set the wrapping of the text.
+---@field max_width fun(
+---	self: ui.Text,
+---): integer Get the maximum width of the text.
+---@field style fun(
+---	self: ui.Text,
+---	style: ui.Style,    -- The style to set.
+---): ui.Text Set the style of the text.
+---@field scroll fun(
+---	self: ui.Text,
+---	x: integer,    -- Horizontal position to scroll to.
+---	y: integer,    -- Vertical position to scroll to.
+---): ui.Text The function to set a scroll position.
+---@field LEFT ui.Text.LEFT A constant for the align() method
+---@field CENTER ui.Text.CENTER A constant for the align() method
+---@field RIGHT ui.Text.RIGHT A constant for the align() method
+---@field WRAP_NO ui.Text.WRAP_NO A constant for the wrap() method
+---@field WRAP ui.Text.WRAP A constant for the wrap() method
+---@field WRAP_TRIM ui.Text.WRAP_TRIM A constant for the wrap() method
+
+-- The types for the direction of the ui.Layout object
+---@alias ui.Layout.HORIZONTAL integer Layout horizontally.
+---@alias ui.Layout.VERTICAL integer Layout vertically.
+
+-- The possible directions of the ui.Layout object
+---@alias ui.Layout.Direction
+---	|ui.Layout.HORIZONTAL
+---	|ui.Layout.VERTICAL
+
+-- The type of the ui.Constraint.Fill function
+--
+-- It applies a constraint to the element to fill the remaining space,
+-- proportionally matching other Fill elements while satisfying all
+-- other constraints.
+---@alias ui.Constraint.Fill fun(scale: integer): ui.Constraint
+
+-- The type of the ui.Constraint object
+---@class (exact) ui.Constraint
+---@field Min fun(
+---	min: integer,    -- The minimum size to set.
+---): ui.Constraint Set a minimum size for the element.
+---@field Max fun(
+---	max: integer,    -- The maximum size to set.
+---): ui.Constraint Set a maximum size for the element.
+---@field Length fun(
+---	length: integer,    -- The fixed size to set.
+--- ): ui.Constraint Set a fixed size for the element.
+---@field Percentage fun(
+---	percentage: integer,    -- The percentage to set.
+---): ui.Constraint Applies a percentage of the remaining space to the element.
+---@field Ratio fun(
+---	numerator: integer,    -- The numerator of the ratio to set.
+---	denominator: integer,    -- The denominator of the ratio to set.
+---): ui.Constraint Applies a ratio of the remaining space to the element.
+---@field Fill ui.Constraint.Fill Fill the remaining space of the element.
+
+-- The type of the ui.Layout object
+---@class (exact) ui.Layout
+---@field direction fun(
+---	self: ui.Layout,
+---	direction: ui.Layout.Direction,    -- The direction to set.
+---): ui.Layout Set the direction of the layout.
+---@field margin fun(
+---	self: ui.Layout,
+---	margin: integer,    -- The margin to set.
+---): ui.Layout Set the margin of the layout.
+---@field margin_h fun(
+---	self: ui.Layout,
+---	margin: integer,    -- The horizontal margin to set.
+---): ui.Layout Set the horizontal margin of the layout.
+---@field margin_v fun(
+---	self: ui.Layout,
+---	margin: integer,    -- The vertical margin to set.
+---): ui.Layout Set the vertical margin of the layout.
+---@field constraints fun(
+---	self: ui.Layout,
+---	constraints: ui.Constraint[],    -- The constraints to set.
+---): ui.Layout Set the constraints of the layout.
+---@field split fun(
+---	self: ui.Layout,
+---	rect: ui.Rect,    -- The rectangular area to split.
+---): ui.Rect Split the layout into multiple ui.Rect based on the constraints.
+
+-- The type of the area function for the ui.List object
+--
+-- It accepts a rectangular area to change the area of the list.
+-- If there is no rectangular area given,
+-- it returns the current area of the list.
+---@alias ui.List.area fun(self: ui.List, rect: ui.Rect): nil|ui.Rect
+
+-- The type of the ui.List object
+---@class (exact) ui.List
+---@field area ui.List.area Set or retrieve the current area of the list.
+---@field style fun(
+---	self: ui.List,
+---	style: ui.Style,    -- The style to set.
+---): ui.List Set the style of the list.
+
+-- The direction of the ui.Bar object
+---@alias ui.Bar.NONE integer No direction.
+---@alias ui.Bar.TOP integer Top direction.
+---@alias ui.Bar.RIGHT integer Right direction
+---@alias ui.Bar.BOTTOM integer Bottom direction.
+---@alias ui.Bar.LEFT integer Left direction.
+---@alias ui.Bar.ALL integer All directions.
+
+-- The possible directions of the ui.Bar object
+---@alias ui.Bar.Direction
+---	|ui.Bar.NONE
+---	|ui.Bar.TOP
+---	|ui.Bar.RIGHT
+---	|ui.Bar.BOTTOM
+---	|ui.Bar.LEFT
+---	|ui.Bar.ALL
+
+-- The type of the area function for the ui.Bar object
+--
+-- It accepts a rectangular area to change the area of the bar.
+-- If there is no rectangular area given,
+-- it returns the current area of the bar.
+---@alias ui.Bar.area fun(self: ui.Bar, rect: ui.Rect): nil|ui.Rect
+
+-- The type of the ui.Bar object
+---@class (exact) ui.Bar
+---@field area ui.Bar.area Set or retrieve the current area of the bar.
+---@field symbol fun(
+---	self: ui.Bar,
+---	symbol: string,    -- The symbol to set.
+---): ui.Bar Set the symbol of the bar.
+---@field style fun(
+---	self: ui.Bar,
+---	style: ui.Style,    -- The style to set.
+---): ui.Bar Set the style of the bar.
+---@field NONE string A constant for the ui.Bar() method
+---@field TOP string A constant for the ui.Bar() method
+---@field RIGHT string A constant for the ui.Bar() method
+---@field BOTTOM string A constant for the ui.Bar() method
+---@field LEFT string A constant for the ui.Bar() method
+---@field ALL string A constant for the ui.Bar() method
+
+-- The position of the ui.Border object
+---@alias ui.Border.NONE integer No direction.
+---@alias ui.Border.TOP integer Top direction.
+---@alias ui.Border.RIGHT integer Right direction
+---@alias ui.Border.BOTTOM integer Bottom direction.
+---@alias ui.Border.LEFT integer Left direction.
+---@alias ui.Border.ALL integer All directions.
+
+-- The possible positions of the ui.Border object
+---@alias ui.Border.Position
+---	|ui.Border.NONE
+---	|ui.Border.TOP
+---	|ui.Border.RIGHT
+---	|ui.Border.BOTTOM
+---	|ui.Border.LEFT
+---	|ui.Border.ALL
+
+-- The type of the area function for the ui.Border object
+--
+-- It accepts a rectangular area to change the area of the border.
+-- If there is no rectangular area given,
+-- it returns the current area of the border.
+---@alias ui.Border.area fun(self: ui.Border, rect: ui.Rect): nil|ui.Rect
+
+-- The different types of the ui.Border object
+---@alias ui.Border.PLAIN integer Plain border.
+---@alias ui.Border.ROUNDED integer Rounded border.
+---@alias ui.Border.DOUBLE integer Double border.
+---@alias ui.Border.THICK integer Thick border.
+---@alias ui.Border.QUADRANT_INSIDE integer Border with the quadrant inside.
+---@alias ui.Border.QUADRANT_OUTSIDE integer Border with the quadrant outside.
+
+-- The different types of the ui.Border object
+---@alias ui.Border.Type
+---	|ui.Border.PLAIN
+---	|ui.Border.ROUNDED
+---	|ui.Border.DOUBLE
+---	|ui.Border.THICK
+---	|ui.Border.QUADRANT_INSIDE
+---	|ui.Border.QUADRANT_OUTSIDE
+
+-- The type of the ui.Border object
+---@class (exact) ui.Border
+---@field area ui.Border.area Set or retrieve the current area of the border.
+---@field type fun(
+---	self: ui.Border,
+---	type: ui.Border.Type,    -- The type to set.
+---): ui.Border Set the type of the border.
+---@field style fun(
+---	self: ui.Border,
+---	style: ui.Style,    -- The style to set.
+---): ui.Border Set the style of the border.
+
+-- The type of the area function for the ui.Gauge object
+--
+-- It accepts a rectangular area to change the area of the gauge.
+-- If there is no rectangular area given,
+-- it returns the current area of the gauge.
+---@alias ui.Gauge.area fun(self: ui.Gauge, rect: ui.Rect): nil|ui.Rect
+
+-- The type of the ui.Gauge object
+---@class (exact) ui.Gauge
+---@field area ui.Gauge.area Set or retrieve the current area of the gauge.
+---@field percent fun(
+---	self: ui.Gauge,
+---	percent: integer,    -- The percentage to set.
+---): ui.Gauge Set the percentage of the gauge.
+---@field ratio fun(
+---	self: ui.Gauge,
+---	ratio: integer,    -- The ratio to set.
+---): ui.Gauge Set the ratio of the gauge.
+---@field label fun(
+---	self: ui.Gauge,
+---	label: string,    -- The label to set.
+---): ui.Gauge Set the label of the gauge.
+---@field style fun(
+---	self: ui.Gauge,
+---	style: ui.Style,    -- The style to set.
+---): ui.Gauge Set the style of the gauge except for the bar.
+---@field gauge_style fun(
+---	self: ui.Gauge,
+---	style: ui.Style,    -- The style to set.
+---): ui.Gauge Set the style of the gauge bar.
+
+-- The type of the area function for the ui.Clear object
+--
+-- It accepts a rectangular area to change the area of the clear.
+-- If there is no rectangular area given,
+-- it returns the current area of the clear.
+---@alias ui.Clear.area fun(self: ui.Clear, rect: ui.Rect): nil|ui.Rect
+
+-- The type of the ui.Clear object
+---@class (exact) ui.Clear
+---@field area ui.Clear.area Set or retrieve the current area of the clear.
+
+-- The type of the ui global object
+---@class (exact) Ui
+---@field Rect fun(params: ui.RectParams): ui.Rect Create a rectangular area.
+---@field Pad fun(
+---	top: integer,       -- The top padding.
+---	right: integer,     -- The right padding.
+---	bottom: integer,    -- The bottom padding.
+---	left: integer,      -- The left padding.
+---): ui.Pad Create a padding object.
+---@field Style fun(style: th.Style|nil): ui.Style Create a style object.
+---@field Span fun(text: string|ui.Span): ui.Span Create a span object.
+---@field Line (fun(
+---	list_of_spans: string
+---		|ui.Span
+---		|ui.Line
+---		|(string|ui.Span|ui.Line)[],
+---): ui.Line)|ui.Line Create a line object.
+---@field Text (fun(
+---	list_of_lines: string
+---		|ui.Line
+---		|ui.Span
+---		|(string|ui.Line|ui.Span)[],
+---): ui.Text)|ui.Text Create a text object.
+---@field Layout (fun(): ui.Layout)|ui.Layout Create a layout object.
+---@field Constraint ui.Constraint The constraint object.
+---@field List fun(
+---	list_of_text: (string|ui.Text|ui.Line|ui.Span)[],
+---): ui.List Create a list object.
+---@field Bar (fun(
+---	direction: ui.Bar.Direction,    -- The direction to create the bar.
+---): ui.Bar)|ui.Bar Create a bar object.
+---@field Border (fun(
+---	position: ui.Border.Position,    -- The position to create the border.
+---): ui.Border)|ui.Border Create a border object.
+---@field Gauge fun(): ui.Gauge Create a gauge object.
+---@field Clear fun(
+---	rect: ui.Rect,    -- The rectangular area to clear.
+---): ui.Clear Clear the content of a specified rectangular area.
+
+-- The type for the Cha object
+---@class (exact) Cha
+---@field is_dir boolean Whether the item is a directory.
+---@field is_hidden boolean Whether the item is hidden.
+---@field is_link boolean Whether the item is a symbolic link.
+---@field is_orphan boolean Whether the item is a bad symbolic link.
+---@field is_dummy boolean Whether the item is missing metadata.
+---@field is_block boolean Whether the item is a block device.
+---@field is_char boolean Whether the item is a character device.
+---@field is_fifo boolean Whether the item is a FIFO.
+---@field is_sock boolean Whether the item is a socket.
+---@field is_exec boolean Whether the item is executable.
+---@field is_sticky boolean Whether the item has the sticky bit set.
+---@field len integer The length of the file, which is in bytes.
+---@field atime integer|nil The last access time of the file in Unix timestamp.
+---@field btime integer|nil The birth time of the file in Unix timestamp.
+---@field mtime integer|nil The modified time of the file in Unix timestamp.
+---@field perm fun(): string|nil The permissions of the file, like drwxr-xr-x.
+---@field uid integer|nil The user ID of the file, Unix only.
+---@field gid integer|nil The group ID of the file, Unix only.
+---@field nlink integer|nil The number of hard links to the file, Unix only.
+
+-- The type for the Url object
+---@class (exact) Url
+---@field frag string The fragment string of the Url.
+---@field base string Returns the base path of the Url.
+---@field is_regular boolean Whether the Url points to a regular file.
+---@field is_search boolean Whether the Url points to file from a search result.
+---@field is_archive boolean Whether the Url points to a file from an archive.
+---@field is_absolute boolean Whether the Url is absolute.
+---@field has_root boolean Whether the Url has a root.
+---@field name string|nil The file name of the Url.
+---@field stem string|nil The file name of the Url without the file extension.
+---@field ext string|nil The file extension of the Url.
+---@field parent Url|nil The parent directory Url of the Url.
+---@field join fun(
+---	self: Url,
+---	url: Url|string,    -- The Url or string to join with.
+---): Url Join with another Url or string.
+---@field starts_with fun(
+---	self: Url,
+---	url: Url|string,    -- The Url or string to check.
+---): boolean Whether the Url starts with another Url or string.
+---@field ends_with fun(
+---	self: Url,
+---	url: Url|string,    -- The Url or string to check.
+---): boolean Whether the Url ends with another Url or string.
+---@field strip_prefix fun(
+---	self: Url,
+---	url: Url|string,    -- The Url or string to strip.
+---): Url Strip the prefix of another Url or string.
+
+-- The type of the File object
+---@class (exact) File
+---@field url Url The Url of the file.
+---@field cha Cha The Cha of the file.
+---@field link_to Url|nil The Url of the symbolic link target.
+---@field name string The name of the file.
+
+-- The type of the Icon object
+---@class (exact) Icon
+---@field text string The text of the icon.
+---@field style ui.Style The style of the icon.
+
+-- The type of the Error object
+---@class (exact) Error
+---@field code integer|nil The raw error code.
+
+-- The type of the Window object
+---@class (exact) Window
+---@field rows integer The number of rows in the window.
+---@field cols integer The number of columns in the window.
+---@field width integer The width of the window in pixels.
+---@field height integer The height of the window in pixels.
+
+-- The type of the found function
+--
+-- Returns the status of the file when users use the find command.
+-- It returns nil if the file is not found.
+-- Otherwise, it returns the position of the matched file,
+-- and the number of all matched files.
+---@alias folder.File.found fun(self: fs.File): integer|nil, integer|nil
+
+-- The type of the fs::File object
+---@class (exact) fs.File: File
+---@field is_hovered boolean Whether the file is hovered.
+---@field found folder.File.found
+---@field size fun(
+---	self: fs.File,
+---): integer|nil The size of the file, in bytes.
+---@field mime fun(self: fs.File): string|nil The mime type of the file.
+---@field prefix fun(
+---	self: fs.File,
+---): string|nil The prefix of the file relative to the CWD.
+---@field icon fun(self: fs.File): Icon|nil The icon of the file.
+---@field style fun(self: fs.File): ui.Style|nil The style of the file.
+---@field is_yanked fun(self: fs.File): boolean Whether the file is yanked.
+---@field is_selected fun(
+---	self: fs.File,
+---): boolean Whether the file is selected.
+
+-- The type of the fs::Files object
+---@class (exact) fs.Files
+
+-- The type of the tab::Folder object
+---@class (exact) tab.Folder
+---@field cwd Url The current working directory of the folder as a Url.
+---@field offset integer The offset of the folder.
+---@field cursor integer The cursor position of the folder.
+---@field window File[] A table of files in the visible area of the folder.
+---@field files fs.Files The files of the folder.
+---@field hovered fs.File|nil The hovered file of the folder.
+---@field stage fun(): loaded: boolean, err: Error|nil Get Yazi's loading stage.
+
+-- The type of the tab::Mode object
+-- It represents the mode of a tab.
+---@class (exact) tab.Mode
+---@field is_select boolean Whether the tab is in select mode.
+---@field is_unset boolean Whether the tab is in unset mode.
+---@field is_visual boolean Whether the tab is in visual mode.
+
+-- The sort method enum
+---@alias SortMethod
+---	|"none" Do not sort.
+---	|"mtime" Sort by last modified time.
+---	|"btime" Sort by birth time.
+---	|"extension" Sort by file extension.
+---	|"alphabetical" Sort alphabetically, e.g. 1.md < 10.md < 2.md.
+---	|"natural" Sort naturally, e.g. 1.md < 2.md < 10.md.
+---	|"size" Sort by file size.
+---	|"random" Sort randomly.
+
+-- The line mode, which displays information associated with the file
+-- on the right side of the file list row.
+---@alias LineMode
+---	|"none" No line mode.
+---	|"size" Display the file size in bytes.
+---	|"btime" Display the birth time of the file.
+---	|"mtime" Display the last modified time of the file.
+---	|"permissions" Display the permissions of the file, Unix only.
+---	|"owner" Display the owner of the file, Unix only.
+
+-- The type of the tab::Preference object
+---@class (exact) tab.Preference
+---@field sort_by SortMethod The sort method of the tab.
+---@field sort_sensitive boolean Whether the sorting is case-sensitive.
+---@field sort_reverse boolean Whether the sorting is reversed.
+---@field sort_dir_first boolean Whether directories are sorted first.
+---@field sort_translit boolean Whether transliteration is enabled.
+---@field linemode LineMode The line mode of the tab.
+---@field show_hidden boolean Whether hidden files are shown.
+
+-- The type of the tab::Selected object
+---@class (exact) tab.Selected
+
+-- The type of the tab::Preview object
+---@class (exact) tab.Preview
+---@field skip integer The number of units to skip.
+---@field folder tab.Folder The folder of the preview.
+
+-- The type of the tab::Tab object
+---@class (exact) tab.Tab
+---@field name string The name of the tab.
+---@field mode tab.Mode The mode of the tab.
+---@field pref tab.Preference The configuration of the tab.
+---@field current tab.Folder The current folder of the tab.
+---@field parent tab.Folder|nil The parent folder of the tab.
+---@field selected tab.Selected The selected files within the tab.
+---@field preview tab.Preview The preview within the tab.
+
+-- The type of the mgr::Tabs object
+---@class (exact) mgr.Tabs
+---@field idx integer The index of the active tab.
+
+-- The type of the tasks::Tasks.progress object
+---@class (exact) tasks.Tasks.progress
+---@field total integer The total number of tasks.
+---@field succ integer The number of successful tasks.
+---@field fail integer The number of failed tasks.
+---@field found integer The number of tasks to do.
+---@field processed integer The number of tasks already processed.
+
+-- The type of the tasks::Tasks object
+---@class (exact) tasks.Tasks
+---@field progress tasks.Tasks.progress The progress of the tasks.
+
+-- The type of the mgr::Yanked object
+---@class (exact) mgr.Yanked
+---@field is_cut boolean Whether the yanked urls are cut.
+
+-- The type of the app data
+---@class (exact) Cx
+---@field active tab.Tab The active tab.
+---@field tabs mgr.Tabs All tabs.
+---@field tasks tasks.Tasks All tasks.
+---@field yanked mgr.Yanked The yanked urls.
+
+-- The type of non table sendable values
+---@alias SendableValueNonTable
+---	|string
+---	|number
+---	|boolean
+---	|nil
+---	|Url
+
+-- The type of sendable values
+---@alias SendableValue
+---	|SendableValueNonTable
+---	|table<SendableValueNonTable, SendableValueNonTable|SendableValue>
+
+-- The type of the permit object
+---@class (exact) Permit
+---@field drop fun(
+---	self: Permit,
+---): nil Drop the permit to restore the TUI display.
+
+-- The type of the candidates for the which() method
+---@class (exact) WhichKeyCandidate
+---@field on string|string[] The key for the candidate.
+---@field desc string|nil The description of the candidate.
+
+-- The type of the origin position
+---@alias OriginPosition
+---	|"top-left"
+---	|"top-right"
+---	|"top-center"
+---	|"top-right"
+---	|"bottom-left"
+---	|"bottom-center"
+---	|"bottom-right"
+---	|"hovered"
+
+-- The type of the position object
+---@class (exact) Position
+---@field x integer|nil The x offset from the origin position.
+---@field y integer|nil The y offset from the origin position.
+---@field w integer The width of the component.
+---@field h integer|nil The height of the component.
+
+-- The type of the input options
+---@class (exact) YaziInputOptions
+---@field position Position The position of the input.
+---@field title string|ui.Line The title of the input.
+
+-- The type of the input event
+--
+-- The input events are:
+--	 0: The input was cancelled.
+--	 1: The input was confirmed.
+--	 2: The input was cancelled.
+--	 3: The input has changed the input, applicable when realtime is true
+---@alias InputEvent integer
+
+-- The type of the receiver object
+---@class (exact) InputReceiver
+---@field recv fun(
+---	self: InputReceiver,
+---): integer|nil, InputEvent Receive an input event.
+
+-- The type of the confirm position object
+---@class (exact) YaziConfirmPosition: Position
+---@field h integer The height of the component.
+
+-- The type of the confirm options
+---@class (exact) YaziConfirmOptions
+---@field pos YaziConfirmPosition The position of the confirmation prompt.
+---@field title string|ui.Line The title of the confirmation prompt.
+---@field content string|ui.Text The content of the confirmation prompt.
+
+-- The type of the notification level
+---@alias NotificationLevel
+---	|"Info" Default notification level, informational.
+---	|"Warn" Warning notification.
+---	|"Error" Error notification.
+
+-- The type of the notification options
+---@class (exact) YaziNotificationOptions
+---@field title string The title of the notification.
+---@field timeout number The timeout in seconds.
+---@field content string The content of the notification.
+---@field level NotificationLevel The level of the notification.
+
+-- The type of a sync function
+---@alias SyncFunction fun(...: any): any
+
+--- The various types of Yazi IDs
+---@alias YaziIdTypes
+---	|"app" Returns the value of YAZI_ID
+---	|"ft" Returns the ID representing the current list of files
+
+-- The type of Yazi IDs
+---@class (exact) YaziId
+---@field value integer The raw ID as an integer
+
+-- The type of the ya global
+---@class (exact) Ya
+---@field id fun(type: YaziIdTypes): YaziId Return an ID
+---@field hide fun(): Permit Hide the TUI.
+---@field file_cache fun(opts: {
+---	file: File,       -- The file to cache.
+---	skip: integer,    -- The number of units to skip.
+---}): Url|nil Calculate the cached Url of a file.
+---@field render fun(): nil Render the UI, sync context only.
+---@field mgr_emit fun(
+---	cmd: string,            -- The command to emit.
+---	args: SendableValue,    -- The arguments to pass to the command.
+---): nil Emit a manager command.
+---@field image_show fun(
+---	url: Url,          -- The Url of the image to show.
+---	rect: ui.Rect):    -- The rectangular area to show the image in.
+--- nil Display an image in the specified area, async context only.
+---@field image_precache fun(
+---	src: Url,     -- The Url of the image to precache.
+---	dest: Url,     -- The destination Url of the image.
+---): nil Pre-cache the image to a specified Url, async context only.
+---@field which fun(opts: {
+---	cands: WhichKeyCandidate[],    -- The candidates to check.
+---	silent: boolean|nil,    -- Whether to disable the key indicator UI.
+---}): integer|nil Return the 1-based index of the valid candidate, async only.
+---
+--- Request user input.
+--- When realtime is true, the input will be updated in real time,
+--- and the function will return an input receiver object with
+--- a recv() method that can called multiple times to receive
+--- input events.
+--- The function is only available in the async context.
+---@field input fun(opts: {
+---	title: string,    -- The title of the input.
+---	value: string|nil,    -- The initial value of the input.
+---	position: Position,    -- The position of the input.
+---	realtime: boolean|nil,    -- Whether to update the input in real time.
+---	debounce: integer|nil,    -- The debounce time in milliseconds.
+---}): (string|nil, InputEvent)|InputReceiver
+---@field confirm fun(opts: {
+---	title: string|ui.Line,    -- The title of the confirmation prompt.
+---	content: string|ui.Text,    -- The content of the confirmation prompt.
+---	pos: YaziConfirmPosition,    -- The position of the confirmation prompt.
+---}): boolean Show a confirmation prompt to the user.
+---@field notify fun(opts: {
+---	title: string,    -- The title of the notification.
+---	content: string,    -- The content of the notification.
+---	timeout: number,    -- The timeout in seconds.
+---	level: NotificationLevel|nil,    -- The level of the notification.
+---}): nil Send a foreground notification to the user.
+---@field dbg fun(
+---	msg: any,
+---	...: any,
+---): nil Append debug messages to the log file.
+---@field err fun(
+---	msg: any,
+---	...: any,
+---): nil Append error messages to the log file.
+---
+--- Preview a file as code into the specified area.
+--- Returns an error string if the preview fails.
+--- If the preview fails because it exceeds the maximum
+--- upper bond, it return the bound as the second return value.
+---
+--- The function is only available in the async context.
+---@field preview_code fun(opts: {
+---	file: File,    -- The file to preview.
+---	area: ui.Rect,    -- The area to preview the file.
+---	skip: integer,    -- The number of units to skip.
+---	window: Window,    -- The window to preview the file.
+---}): string|nil, integer|nil
+---@field preview_widgets fun(opts: {
+---	area: ui.Rect,    -- The ui.Rect of the available preview area.
+---	file: File,    -- The file to preview.
+---	mime: string,    -- The mime type of the file.
+---	skip: integer,    -- The number of units to skip.
+---}, widgets: (ui.Text|ui.List|ui.Line|ui.Span)[],    -- The widgets to preview
+---): nil
+---@field sync fun(
+---	func: SyncFunction,
+---): SyncFunction Run a function in the sync context.
+---
+--- Return the target operating system.
+---@field target_os fun():
+---	string
+---	|"linux"
+---	|"macos"
+---	|"ios"
+---	|"freebsd"
+---	|"dragonfly"
+---	|"netbsd"
+---	|"openbsd"
+---	|"solaris"
+---	|"android"
+---	|"windows"
+---
+--- Return the target operating system family.
+---@field target_family fun():
+---	string
+---	|"unix" Linux and macOS
+---	|"windows" Windows
+---	|"wasm" Web
+---@field hash fun(
+---	str: string,    -- The string to calculate the hash for.
+---): string Calculate the hash of a string.
+---@field quote fun(
+---	str: string,    -- The string to be quoted.
+---): string Quote characters in a string that are special shell characters
+---@field truncate fun(
+---	text: string,    -- The text to truncate.
+---	opts: {
+---		max: integer,    -- The maximum length of the text.
+---		rtl: boolean|nil,    -- Whether the text is right-to-left.
+---	},
+---): string Truncate a string to the maximum length given.
+---
+--- Get or set the clipboard content.
+---
+--- If the text is given, it will be copied to the clipboard.
+--- If no text is given, it will return the clipboard content.
+---
+--- The function is only available in the async context.
+---@field clipboard fun(
+---	text: string|nil,    -- The text to copy to the clipboard.
+---): string|nil
+---@field time fun(): number Return the current time in seconds.
+---@field sleep fun(
+---	seconds: number,    -- The number of seconds to sleep.
+---): nil Sleep for a specified number of seconds.
+---@field uid fun(): integer|nil Return the current user ID, Unix only.
+---@field gid fun(): integer|nil Return the current group ID, Unix only.
+---@field user_name fun(
+---	uid: integer|nil,    -- The user ID to get the name for.
+---): string|nil Return the user name for the given user ID, Unix only.
+---@field group_name fun(
+---	gid: integer|nil,    -- The group ID to get the name for.
+---): string|nil Return the group name for the given group ID, Unix only.
+---@field host_name fun(): string|nil Return the host name, Unix only.
+
+-- The type of the ps object
+---@class (exact) Ps
+---@field pub fun(
+---	kind: string,    -- The kind of the message.
+---	value: SendableValue,    -- The value of the message.
+---): nil Publish a message to the current Yazi instance.
+---
+--- Publish a message to a specific Yazi instance
+--- with receiver as the ID.
+---
+--- If the receiver is the current instance (local),
+--- and is subscribed to this kind through sub(),
+--- it will receive the message.
+---
+--- If the receiver is not the current instance (remote),
+--- and is subscribed to this kind through sub_remote(),
+--- it will receive the message.
+---@field pub_to fun(
+---	receiver: integer,    -- The ID of the receiver, 0 for all remotes.
+---	kind: string,    -- The kind of the message.
+---	value: SendableValue,    -- The value of the message.
+---): nil
+---
+--- Subscribe to local message of a specific kind and
+--- call the callback handler for it. The callback
+--- function runs in a sync context, so it is possible
+--- to access app data through cx.
+---
+--- Note that no time consuming operations should be
+--- done in the callback handler.
+---@field sub fun(
+---	kind: string,    -- The kind of the message.
+---	callback: fun(body: SendableValue),
+---): nil
+---@field sub_remote fun(
+---	kind: string,    -- The kind of the message.
+---	callback: fun(body: SendableValue),
+---): nil Same as sub(), but for remotes.
+---@field unsub fun(
+---	kind: string,    -- The kind of the message.
+---): nil Unsubscribe from local messages of the given kind.
+---@field unsub_remote fun(
+---	kind: string,    -- The kind of the message.
+---): nil Same as unsub(), but for remotes.
+
+-- The creation type enum
+---@alias CreationType
+---	|"dir" Create a new empty directory.
+---	|"dir_all" Create a new empty directory and all its parents.
+
+-- The removal type enum
+---@alias RemovalType
+---	|"file" Remove a file.
+---	|"dir" Remove an existing empty directory.
+---	|"dir_all" Remove an existing directory together with all its contents.
+---	|"dir_clean" Remove all empty directories under it.
+
+-- The type of the file system object
+--
+-- All function in the file system are only available in the async context.
+---@class (exact) Fs
+---
+--- Return the Url of the current working directory.
+---
+--- You should never need this function over cx.active.current.cwd,
+--- as this function updates far slower than cx.active.current.cwd.
+---
+--- Use it only to get a working directory to run a process that
+--- doesn't depend on the current working directory.
+---@field cwd fun(): Url|nil, integer|nil
+---@field cha fun(
+---	url: Url,    -- The Url of the file to get the Cha for.
+---	follow: boolean|nil,    -- Whether to follow symlinks.
+---): Cha|nil, Error|nil Return the Cha of a file.
+---@field write fun(
+---	url: Url,    -- The Url of the file to write to.
+---	data: string,    -- The data to write to the file.
+---): boolean|nil, Error|nil Write data to a file.
+---@field create fun(
+---	type: CreationType,    -- The type of creation to perform.
+---	url: Url,    -- The Url of the item to create.
+---): boolean|nil, Error|nil Create a new item.
+---@field remove fun(
+---	type: RemovalType,    -- The type of removal to perform.
+---	url: Url,    -- The Url of the item to remove.
+---): boolean|nil, Error|nil Remove an item.
+---@field read_dir fun(
+---	url: Url,    -- The Url of the directory to read.
+---	options: {
+---		glob: string|nil,    -- A glob pattern to filter the files.
+---		limit: integer|nil,    -- The maximum number of files to read.
+---		resolve: boolean|nil,    -- Whether to resolve symlinks.
+---	},
+---): File[]|nil, Error|nil Read the contents of a directory.
+---@field expand_url fun(
+---	url: string|Url,    -- The string or Url to expand.
+---): Url|nil, Error|nil Expand a file path fully.
+---@field unique_name fun(
+---	url: Url,    -- The Url of the item to generate a unique name for.
+---): Url|nil, Error|nil Generate a unique name for a file or directory.
+
+-- The type of the Command configuration
+---@alias Command.PIPED integer Pipe the output.
+---@alias Command.NULL integer Discard the output, default.
+---@alias Command.INHERIT integer Inherit the output.
+---@alias CommandConfiguration
+---	|Command.PIPED
+---	|Command.NULL
+---	|Command.INHERIT
+
+-- The type of the Status object
+---@class (exact) CommandStatus
+---@field success boolean Whether the command or process was successful.
+---@field code integer|nil The exit code of the command or process.
+
+-- The type of the Output object
+---@class (exact) CommandOutput
+---@field status CommandStatus The status of the command or process.
+---@field stdout string The stdout of the command or process.
+---@field stderr string The stderr of the command or process.
+
+-- The type of the read event
+--
+-- The read events are:
+--	 0: The data comes from the stdout.
+--	 1: The data comes from the stderr.
+--	 2: There's no data to read from both stdout and stderr.
+--	 3: The process timed out, only available using read_line_with()
+---@alias ReadEvent integer
+
+-- The type of the command object
+---@class (exact) Command
+---@field arg fun(
+---	self: Command,
+---	args: string,    -- The argument to append to the command.
+---): Command Append an argument to the command.
+---@field args fun(
+---	self: Command,
+---	args: string[],    -- The arguments to append to the command.
+---): Command Append arguments to the command.
+---@field cwd fun(
+---	self: Command,
+---	cwd: string,    -- The working directory to set for the command.
+---): Command Set the working directory for the command.
+---@field env fun(
+---	self: Command,
+---	key: string,    -- The key of the environment variable to set.
+---	value: string,    -- The value of the environment variable to set.
+---): Command Set an environment variable for the command.
+---@field stdin fun(
+---	self: Command,
+---	cfg: CommandConfiguration,    -- The configuration for the stdin.
+---): Command Set the stdin configuration for the command.
+---@field stdout fun(
+---	self: Command,
+---	cfg: CommandConfiguration,    -- The configuration for the stdout.
+---): Command Set the stdout configuration for the command.
+---@field stderr fun(
+---	self: Command,
+---	cfg: CommandConfiguration,    -- The configuration for the stderr.
+---): Command Set the stderr configuration for the command.
+---@field spawn fun(
+---	self: Command,
+---): Child|nil, Error|nil Spawn the command.
+---@field output fun(
+---	self: Command,
+---): CommandOutput|nil, Error|nil Get the output of the command.
+---@field status fun(
+---	self: Command,
+---): CommandStatus|nil, Error|nil Get the status of the command.
+---@field PIPED Command.PIPED Pipe the output.
+---@field NULL Command.NULL Discard the output, default.
+---@field INHERIT Command.INHERIT Inherit the output.
+
+-- The type of the child process
+---@class (exact) Child
+---@field read fun(
+---	self: Child,
+---	len: integer,    -- The number of bytes to read.
+---): string|nil, ReadEvent Read a number of bytes from the child process.
+---@field read_line fun(
+---	self: Child,
+---): string|nil, ReadEvent Read a line from the child process.
+---@field read_line_with fun(
+---	self: Child,
+---	opts: {
+---		timeout: integer,    -- The timeout in milliseconds.
+---	},
+---): string|nil, ReadEvent Read a line from the child process with a timeout.
+---
+--- Write all bytes from the src string to the stdin of the child process.
+--- The child process' stdin should be available for writing,
+--- so stdin(Command.PIPED) is set, and take_stdin() is never called.
+--- Otherwise, an error will be thrown.
+---@field write_all fun(
+---	self: Child,
+---	src: string,    -- The source to write to the child process.
+---): boolean, Error|nil
+---@field flush fun(
+---	self: Child,
+---): boolean, Error|nil Flush buffered data to the stdin of the child process.
+---@field wait fun(
+---	self: Child,
+---): CommandStatus|nil, Error|nil Wait for the child process to finish.
+---@field wait_with_output fun(
+---	self: Child,
+---): CommandOutput|nil, Error|nil Same as wait(), but also returns the output.
+---@field start_kill fun(
+---	self: Child,
+---): boolean, Error|nil Send a SIGTERM signal to the child process.
+---
+--- Take and return the stdin stream of the child process,
+--- which can only be called once and is only applicable to
+--- processes with stdin(Command.PIPED) set, otherwise it will
+--- return nil.
+---@field take_stdin fun(
+---	self: Child,
+---): string|nil
+---
+--- Take and return the stdout stream of the child process,
+--- which can only be called once and is only applicable to
+--- processes with stdin(Command.PIPED) set, otherwise it will
+--- return nil.
+---
+--- This is useful for redirecting the output of a process
+--- to another process' stdin.
+---@field take_stdout fun(
+---	self: Child,
+---): string|nil
+---
+--- Take and return the stderr stream of the child process,
+--- which can only be called once and is only applicable to
+--- processes with stdin(Command.PIPED) set, otherwise it will
+--- return nil.
+---@field take_stderr fun(
+---	self: Child,
+---): string|nil
+
+-- The type of the args object in the runtime
+---@class (exact) rt.Args
+---@field entries Url[] The url of the current directory in each tab in Yazi
+---@field cwd_file Url The file path to write the current working directory to
+---@field chooser_file Url The file path to write the selected files to
+
+-- The type of the mouse events, which are the types of mouse events
+-- that can be received by the plugin system.
+---@alias MouseEvents
+---	|"click" Mouse click
+---	|"scroll" Mouse vertical scroll
+---	|"touch" Mouse horizontal scroll
+---	|"mouse" Mouse move
+---	|"drag" Mouse drag (some terminals do not support this)
+
+-- The type of the manager object in the runtime
+---@class (exact) rt.Mgr
+---@field ratio integer[] The ratio of the panes.
+---@field sort_by SortMethod The sorting method of the files
+---@field sort_sensitive boolean Whether the files are sorted case-sensitively
+---@field sort_reverse boolean Whether the files are displayed in reverse order
+---@field sort_dir_first boolean Whether directories are displayed first
+---@field sort_translit boolean Whether file names are transliterated
+---@field linemode LineMode The line mode
+---@field show_hidden boolean Whether hidden files are shown
+---@field show_symlink boolean Whether to show the symlink after file name
+---@field scrolloff integer The scroll offset
+---@field mouse_events MouseEvents The allowed mouse events
+---@field title_format string The terminal title format
+
+-- The type of the priority object
+--
+-- Normal is the default value if not specified
+---@alias Priority
+---	|"high"
+---	|"normal"
+---	|"low"
+
+-- The type of the fetcher object
+---@class rt.Plugin.Fetcher
+---@field id string The fetcher's ID
+---@field name string Glob expression matching the file name
+---@field run string The name of the Lua plugin to run
+---@field if string Execute the fetcher based on this condition
+---@field prio Priority The priority of the task
+
+-- The type of the spotter object
+---@class rt.Plugin.Spotter
+---@field name string Glob expression matching the file name
+---@field mime string Glob expression matching the mime-type
+---@field run string The name of the Lua plugin to run
+
+-- The type of the preloader object
+---@class rt.Plugin.Preloader
+---@field name string Glob expression matching the file name
+---@field mime string Glob expression matching the mime-type
+---@field cond string Conditional expression
+---@field run string The name of the Lua plugin to run
+---@field multi boolean Whether to preload multiple files at once
+---@field prio Priority The priority of the preload
+
+-- The type of the previewer object
+---@class rt.Plugin.Previewer
+---@field name string Glob expression matching the file name
+---@field mime string Glob expression matching the mime-type
+---@field run string The name of the Lua plugin to run
+---@field sync boolean Whether to run synchronously
+
+-- The type of the plugin object in the runtime
+---@class (exact) rt.Plugin
+---@field fetchers rt.Plugin.Fetcher[] The list of installed fetchers
+---@field spotter rt.Plugin.Spotter[] The list of installed spotters
+---@field preloaders rt.Plugin.Preloader[] The list of installed preloaders
+---@field previewer rt.Plugin.Previewer[] The list of installed previewers
+
+-- The type of the image filter used on image downscaling,
+-- arranged from fastest to slowest.
+---@alias ImageFilter
+---	|"nearest" Nearest neighbour filter
+---	|"triangle" Linear triangle filter
+---	|"catmull-rom" Catmull-Rom filter
+---	|"lanczos3" Lanczos with window 3 filter
+
+-- The type of the preview object in the runtime
+---@class (exact) rt.Preview
+---@field wrap boolean Whether to wrap long lines in the code preview
+---@field tab_size integer The width of a tab character in spaces
+---@field max_width integer The maximum preview width for preview images
+---@field max_height integer The maximum preview height for preview images
+---@field cache_dir string The cache directory for the previews
+---@field image_delay integer Delay in milliseconds before sending image data
+---@field image_filter ImageFilter The image filter used to downscale images
+---@field image_quality integer Quality of cached images, ranges from 50 - 90
+---@field sixel_fraction integer The number of samples used for training
+---@field ueberzug_scale number Ueberzug image scaling ratio
+---@field ueberzug_offset number[] Ueberzug image offset, in cell units
+
+-- The type of the tasks object in the runtime
+---@class (exact) rt.Tasks
+---@field micro_workers integer The maximum number of concurrent micro-tasks
+---@field macro_workers integer The maximum number of concurrent macro-tasks
+---@field bizarre_retry integer Maximum retries when a bizarre failure occurs
+---@field image_alloc integer Maximum memory limit in bytes for image decoding
+---@field image_bound integer[] Array of [width, height] for maximum image size
+---@field suppress_preload boolean Exclude the preload tasks from the tasks list
+
+-- The type of the term object in the runtime
+---@class (exact) rt.Term
+---@field light boolean Whether the user's terminal is in light mode or not
+
+-- The type of the runtime object
+---@class (exact) Rt
+---@field args rt.Args
+---@field mgr rt.Mgr
+---@field plugins rt.Plugin
+---@field preview rt.Preview
+---@field tasks rt.Tasks
+---@field term rt.Term
+
+-- The type of the style in the theme
+---@class (exact) th.Style
+---@field fg Color|nil The foreground colour
+---@field bg Color|nil The background colour
+---@field bold boolean|nil Whether the item is bolded
+---@field dim boolean|nil Whether the item is dimmed
+---@field italic boolean|nil Whether the item is italic
+---@field underline boolean|nil Whether the item is underlined
+---@field blink boolean|nil Whether the item is blinking
+---@field blink_rapid boolean|nil Whether the item is blinking rapidly
+---@field reverse boolean|nil Whether the background and foreground are reversed
+---@field hidden boolean|nil Whether the item is hidden
+---@field crossed boolean|nil Whether the item is crossed out
+
+-- The type of the manager object in the theme
+---@class (exact) th.Manager
+---@field cwd th.Style The style of the current working directory
+---@field hovered th.Style The style of the hovered item
+---@field preview_hovered th.Style Style of the hovered file in the preview
+---@field find_keyword th.Style Style of the highlighted portion
+---@field find_position th.Style Style of the current number of matches
+---@field marker_copied th.Style Style of the "copied" marker
+---@field marker_cut th.Style Style of the "cut" marker
+---@field marker_marked th.Style Style of the "marked" marker in visual mode
+---@field marker_selected th.Style Style of the "selected" marker
+---@field tab_active th.Style Style of the active tab
+---@field tab_inactive th.Style Style of the inactive tab
+---@field tab_width integer The maximum width of the tab marker
+---@field count_copied th.Style The style of the copied file number
+---@field count_cut th.Style The style of the cut file number
+---@field count_selected th.Style The style of the selected file number
+---@field border_symbol string The symbol used for the border
+---@field border_style th.Style The style of the border
+---@field syntect_theme string Path to syntactic highlighting theme file
+
+-- The type of the mode object in the theme
+---@class (exact) th.Mode
+---@field normal_main th.Style The normal mode 1st separator style
+---@field normal_alt th.Style The normal mode 2nd separator style
+---@field select_main th.Style The select mode 1st separator style
+---@field select_alt th.Style The select mode 2nd separator style
+---@field unset_main th.Style The unset mode 1st separator style
+---@field unset_alt th.Style The unset mode 2nd separator style
+
+-- The type of the status object in the theme
+---@class (exact) th.Status
+---@field overall th.Style The overall style of the status bar
+---@field sep_left {
+---	open: string,
+---	close: string,
+---} The left side separator symbol
+---@field sep_right {
+---	open: string,
+---	close: string,
+---} The right side separator symbol
+---@field perm_type th.Style The style of the file type
+---@field perm_read th.Style The style of the read permission
+---@field perm_write th.Style The style of the write permission
+---@field perm_exec th.Style The style of the execute permission
+---@field perm_sep th.Style The style of the "-" separator
+---@field progress_label th.Style The style of the progress label
+---@field progress_normal th.Style Style of the progress bar normally
+---@field progress_error th.Style Style of the progress bar with an error
+
+-- The type of the which key object in the theme
+---@class (exact) th.Which
+---@field cols integer The number of columns, and it can only be 1, 2 or 3
+---@field mask th.Style The style of the mask
+---@field cand th.Style The style of the candidate
+---@field rest th.Style The style of the rest key
+---@field desc th.Style The style of the description
+---@field separator string The separator symbol "->"
+---@field separator_style th.Style The style of the separator symbol
+
+-- The type of the confirm object in the theme
+---@class (exact) th.Confirm
+---@field border th.Style The style of the border
+---@field title th.Style The style of the title
+---@field content th.Style The style of the content
+---@field list th.Style The style of the list below the content
+---@field btn_yes th.Style The style of the yes button
+---@field btn_no th.Style The style of the no button
+---@field btn_labels string[] A list of two strings containing the button labels
+
+-- The type of the spotter object in the theme
+---@class (exact) th.Spotter
+---@field border th.Style The style of the border of the spotter
+---@field title th.Style The style of the title of the spotter
+---@field tbl_cell th.Style The style of the selected item in the spotter
+---@field tbl_col th.Style The style of the values in the spotter
+
+-- The type of the notify object in the theme
+---@class (exact) th.Notify
+---@field title_info th.Style The style of the info title
+---@field title_warn th.Style The style of the warning title
+---@field title_error th.Style The style of the error title
+---@field icon_info string The info icon
+---@field icon_warn string The warning icon
+---@field icon_error string The error icon
+
+-- The type of the picker object in the theme
+---@class (exact) th.Pick
+---@field border th.Style The style of the border
+---@field active th.Style The style of the selected item
+---@field inactive th.Style The style of the unselected item
+
+-- The type of the input object in the theme
+---@class (exact) th.Input
+---@field border th.Style The style of the border
+---@field title th.Style The style of the title
+---@field value th.Style The style of the value
+---@field selected th.Style The style of the selected value
+
+-- The type of the completion object in the theme
+---@class (exact) th.Cmp
+---@field border th.Style The style of the border
+---@field active th.Style The style of the selected item
+---@field inactive th.Style The style of the unselected item
+---@field icon_file string The file icon
+---@field icon_folder string The folder icon
+---@field icon_command string The command icon
+
+-- The type of the tasks object in the theme
+---@class (exact) th.Tasks
+---@field border th.Style The style of the border
+---@field title th.Style The style of the title
+---@field hovered th.Style The style of the hovered item
+
+-- The type of the help object in the theme
+---@class (exact) th.Help
+---@field on th.Style The style of the column containing the key
+---@field run th.Style The style of the column containing the commands
+---@field desc th.Style The style of the column containing the description
+---@field hovered th.Style The style of the hovered item
+---@field footer th.Style The style of the footer
+
+-- The type of the theme object
+---@class Th
+---@field mgr th.Manager
+---@field mode th.Mode
+---@field status th.Status
+---@field which th.Which
+---@field confirm th.Confirm
+---@field spot th.Spotter
+---@field notify th.Notify
+---@field pick th.Pick
+---@field input th.Input
+---@field cmp th.Cmp
+---@field tasks th.Tasks
+---@field help th.Help
+
+-- Type the globals provided by Yazi
+
+-- Type the ui global
+---@type Ui
+---@diagnostic disable-next-line: lowercase-global
+ui = ui
+
+-- Type the Url global
+---@type Url
+Url = Url
+
+-- Type the cx global
+---@type Cx
+---@diagnostic disable-next-line: lowercase-global
+cx = cx
+
+-- Type the ya global
+---@type Ya
+---@diagnostic disable-next-line: lowercase-global
+ya = ya
+
+-- Type the ps global
+---@type Ps
+---@diagnostic disable-next-line: lowercase-global
+ps = ps
+
+-- Type the fs global
+---@type Fs
+---@diagnostic disable-next-line: lowercase-global
+fs = fs
+
+-- Type the Command global
+---@type Command
+Command = Command
+
+-- Type the rt global
+---@type Rt
+---@diagnostic disable-next-line: lowercase-global
+rt = rt
+
+-- Type the th global
+---@type Th
+---@diagnostic disable-next-line: lowercase-global
+th = th
