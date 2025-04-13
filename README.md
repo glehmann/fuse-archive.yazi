@@ -16,7 +16,7 @@ mount and unmount the archives manually.
 [fuse-archive.yazi](https://github.com/glehmann/fuse-archive.yazi) supports
 mounting the following file extensions: `.zip`, `.gz`, `.bz2`, `.tar`, `.tgz`,
 `.tbz2`, `.txz`, `.xz`, `.tzs`, `.zst`, `.iso`, `.rar`, `.7z`, `.cpio`, `.lz`,
-`.lzma`, `.shar`, `.a`, `.ar`, `.apk`, `.jar`, `.xpi`, `.cab`, `.rpm`.
+`.lzma`, `.shar`, `.a`, `.ar`, `.apk`, `.jar`, `.xpi`, `.cab`, `.rpm`, `.deb`.
 
 ## Requirements
 
