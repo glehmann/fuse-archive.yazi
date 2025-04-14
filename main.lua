@@ -97,9 +97,12 @@ local valid_extension = ya.sync(function()
       return false
     end
     local valid_extensions = {
-      "zip", "gz", "bz2", "tar", "tgz", "tbz2", "txz", "xz", "tzs",
-      "zst", "iso", "rar", "7z", "cpio", "lz", "lzma", "shar", "a",
-      "ar", "apk", "jar", "xpi", "cab", "rpm", "deb"
+      '7z', '7zip', 'a', 'apk', 'ar', 'b64', 'base64', 'br', 'brotli', 'bz2', 'bzip2', 'cab',
+      'cpio', 'crx', 'deb', 'docx', 'grz', 'grzip', 'gz', 'gzip', 'iso', 'iso9660',
+      'jar', 'lha', 'lrz', 'lrzip', 'lz', 'lz4', 'lzip', 'lzma', 'lzo', 'lzop',
+      'mtree', 'odf', 'odg', 'odp', 'ods', 'odt', 'ppsx', 'pptx', 'rar', 'rpm', 'shar', 'tar',
+      'taz', 'tb2', 'tbz', 'tbz2', 'tgz', 'tlz', 'tlz4', 'tlzma', 'txz', 'tz', 'tz2',
+      'tzst', 'tzs', 'uu', 'warc', 'xar', 'xlsx', 'xpi', 'xz', 'z', 'zip', 'zipx', 'zst', 'zstd',
     }
     local filename = tostring(h.url)
     for _, ext in ipairs(valid_extensions) do

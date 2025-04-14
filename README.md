@@ -14,9 +14,14 @@ It also supports very few file types compared to this plugin, and you need to
 mount and unmount the archives manually.
 
 [fuse-archive.yazi](https://github.com/glehmann/fuse-archive.yazi) supports
-mounting the following file extensions: `.zip`, `.gz`, `.bz2`, `.tar`, `.tgz`,
-`.tbz2`, `.txz`, `.xz`, `.tzs`, `.zst`, `.iso`, `.rar`, `.7z`, `.cpio`, `.lz`,
-`.lzma`, `.shar`, `.a`, `.ar`, `.apk`, `.jar`, `.xpi`, `.cab`, `.rpm`, `.deb`.
+mounting the following file extensions:
+`7z`, `7zip`, `a`, `apk`, `ar`, `b64`, `base64`, `br`, `brotli`, `bz2`, `bzip2`, `cab`,
+`cpio`, `crx`, `deb`, `docx`, `grz`, `grzip`, `gz`, `gzip`, `iso`, `iso9660`,
+`jar`, `lha`, `lrz`, `lrzip`, `lz`, `lz4`, `lzip`, `lzma`, `lzo`, `lzop`,
+`mtree`, `odf`, `odg`, `odp`, `ods`, `odt`, `ppsx`, `pptx`, `rar`, `rpm`, `shar`, `tar`,
+`taz`, `tb2`, `tbz`, `tbz2`, `tgz`, `tlz`, `tlz4`, `tlzma`, `txz`, `tz`, `tz2`,
+`tzst`, `tzs`, `uu`, `warc`, `xar`, `xlsx`, `xpi`, `xz`, `z`, `zip`, `zipx`, `zst`, `zstd`,
+and the compressed tar files (`tar.gz`, `tar.bz2`, …).
 
 ## Requirements
 
